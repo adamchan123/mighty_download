@@ -14,10 +14,16 @@
     </div>
     <div class="foot">
       <div class="wrap">
-        <div class="btn" @click="downloadLocal">
-          <img src="./assets/img/phone@3x.png" alt="" />
-          <span>App {{ downloadText[lang] }}</span>
-        </div>
+        <a
+          href="https://download.promen.me/mighty/app/mighty.apk"
+          download="mighty.apk"
+          @click="downloadLocal"
+        >
+          <div class="btn">
+            <img src="./assets/img/phone@3x.png" alt="" />
+            <span>App {{ downloadText[lang] }}</span>
+          </div>
+        </a>
         <div class="btn" @click="storeDownload" v-if="device == 'Android'">
           <img src="./assets/img/googlePlay@3x.png" alt="" />
           <span>Google Play</span>
@@ -55,22 +61,25 @@ export default {
   methods: {
     downloadLocal() {
       let device = util.checkDevice();
-      if (device == "Android") {
-        window.location.href =
-          "https://download.promen.me/mighty/app/mighty.apk";
-      } else if (device == "IOS") {
-        window.location.href =
-          "itms-services://?action=download-manifest&url=https://apps.appdownload.center/package/zh/mighty.plist";
+      if (device == "IOS") {
+        window.open(
+          "itms-services://?action=download-manifest&url=https://apps.appdownload.center/package/zh/mighty.plist",
+          "_self"
+        );
       }
     },
     storeDownload() {
       let device = util.checkDevice();
       if (device == "Android") {
-        window.location.href =
-          "https://play.google.com/store/apps/details?id=com.chat.app.mightys";
+        window.open(
+          "https://play.google.com/store/apps/details?id=com.chat.app.mightys",
+          "_self"
+        );
       } else if (device == "IOS") {
-        window.location.href =
-          "https://apps.apple.com/sg/app/mighty-global/id1544908215";
+        window.open(
+          "https://apps.apple.com/sg/app/mighty-global/id1544908215",
+          "_self"
+        );
       }
     },
   },
@@ -78,20 +87,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-  line-height: normal;
-}
 #container {
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Microsoft YaHei,
-    sans-serif;
   font-size: 16px;
-  position: fixed;
-  left: 0;
-  top: 0;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   background: url("./assets/img/bg@3x.png") no-repeat;
   background-size: cover;
   .logo {
@@ -125,11 +125,11 @@ export default {
   }
   .foot {
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
     height: 120px;
     width: 100%;
+    position: fixed;
+    bottom:0;
+    left: 0;
     .wrap {
       display: flex;
       justify-content: space-around;
@@ -138,6 +138,18 @@ export default {
       background: url("./assets/img/foot@3x.png") no-repeat;
       background-size: 100%;
       background-position: bottom;
+      a {
+        display: inline-block;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-user-select: none;
+        -moz-user-focus: none;
+        -moz-user-select: none;
+        text-decoration: none;
+
+        .btn {
+          width: 100%;
+        }
+      }
       .btn {
         display: flex;
         align-items: center;
@@ -149,7 +161,7 @@ export default {
         border-radius: 13px;
         padding-left: 15px;
         position: relative;
-        bottom: -25px;
+        bottom: -20px;
         img {
           height: 20px;
           margin-right: 12px;
@@ -159,4 +171,9 @@ export default {
   }
 }
 
+@media screen and (min-width:415px){
+  #container{
+    overflow: auto;
+  }
+}
 </style>

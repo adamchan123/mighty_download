@@ -1,5 +1,7 @@
 module.exports = {
+  publicPath:'./',
   lintOnSave: true,
+  productionSourceMap: false,
   css: {
     loaderOptions: {
       postcss: {
