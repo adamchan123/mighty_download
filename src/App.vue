@@ -1,5 +1,6 @@
 <template>
   <div id="container">
+    <!-- <p>语言：{{lang1}}</p> -->
     <div class="logo">
       <img src="./assets/img/logo@3x.png" alt="" />
     </div>
@@ -14,24 +15,32 @@
     </div>
     <div class="foot">
       <div class="wrap">
-        <a
-          href="https://download.promen.me/mighty/app/mighty.apk"
-          download="mighty.apk"
-          @click="downloadLocal"
-        >
-          <div class="btn">
-            <img src="./assets/img/phone@3x.png" alt="" />
+        <template v-if="device == 'Android'">
+          <a
+            href="https://download.promen.me/mighty/app/mighty.apk"
+            download="mighty.apk"
+          >
+            <div class="btn">
+              <img src="./assets/img/phone@3x.png" alt="" />
+              <span>App {{ downloadText[lang] }}</span>
+            </div>
+          </a>
+          <div class="btn" @click="storeDownload">
+            <img src="./assets/img/googlePlay@3x.png" alt="" />
+            <span>Google Play</span>
+          </div>
+        </template>
+
+        <template v-if="device == 'IOS'">
+          <div class="btn" @click="storeDownload">
+            <img src="./assets/img/apple.png" alt="" />
             <span>App {{ downloadText[lang] }}</span>
           </div>
-        </a>
-        <div class="btn" @click="storeDownload" v-if="device == 'Android'">
-          <img src="./assets/img/googlePlay@3x.png" alt="" />
-          <span>Google Play</span>
-        </div>
-        <div class="btn" @click="storeDownload" v-if="device == 'IOS'">
-          <img src="./assets/img/apple.png" alt="" />
-          <span>App Store</span>
-        </div>
+          <div class="btn" @click="storeDownload">
+            <img src="./assets/img/googlePlay@3x.png" alt="" />
+            <span>Google Play</span>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -43,12 +52,14 @@ export default {
   name: "App",
   data() {
     return {
+      lang1: navigator.language,
       lang: "",
       device: "",
       downloadText: {
-        zh: "本地下载",
-        "zh-tw": "本地下載",
-        vi: "Tải về",
+        zh: "下载",
+        "zh-tw": "下載",
+        "zh-hk": "下載",
+        vi: "Tải",
         en: "Download",
       },
     };
@@ -59,15 +70,6 @@ export default {
     this.device = util.checkDevice();
   },
   methods: {
-    downloadLocal() {
-      let device = util.checkDevice();
-      if (device == "IOS") {
-        window.open(
-          "itms-services://?action=download-manifest&url=https://apps.appdownload.center/package/zh/mighty.plist",
-          "_self"
-        );
-      }
-    },
     storeDownload() {
       let device = util.checkDevice();
       if (device == "Android") {
@@ -128,7 +130,7 @@ export default {
     height: 120px;
     width: 100%;
     position: fixed;
-    bottom:0;
+    bottom: 0;
     left: 0;
     .wrap {
       display: flex;
@@ -145,7 +147,7 @@ export default {
         -moz-user-focus: none;
         -moz-user-select: none;
         text-decoration: none;
-
+        width: 37%;
         .btn {
           width: 100%;
         }
@@ -171,8 +173,8 @@ export default {
   }
 }
 
-@media screen and (min-width:415px){
-  #container{
+@media screen and (min-width: 415px) {
+  #container {
     overflow: auto;
   }
 }

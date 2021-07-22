@@ -1,8 +1,8 @@
 export default {
   getBrowserLang() {
-    let langs = ["zh", "zh-tw", "vi", "en"];
+    let langs = ["zh", "zh-tw", "zh-hk", "vi", "en"];
     let lang = navigator.language;
-    let res = "en-";
+    let res = "en";
     for (let value of langs) {
       let match = new RegExp(`${value}`, "i").test(lang);
       if (match) {
